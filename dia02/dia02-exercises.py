@@ -71,33 +71,61 @@
 
 # DBTITLE 1, 6. Selecione os pedidos que o frete é mais caro que o item.
 # MAGIC %sql
+# MAGIC SELECT DISTINCT idPedido
+# MAGIC FROM silver.olist.item_pedido
+# MAGIC WHERE vlFrete > vlPreco
+# MAGIC ORDER BY idPedido
 
 # COMMAND ----------
 
 # DBTITLE 1,7. Lista de pedidos que ainda não foram enviados.
 # MAGIC %sql
+# MAGIC SELECT *
+# MAGIC FROM silver.olist.pedido
+# MAGIC WHERE descSituacao IN ('approved', 'invoiced', 'created')
 
 # COMMAND ----------
 
 # DBTITLE 1,8. Lista de pedidos que foram entregues com atraso.
 # MAGIC %sql
+# MAGIC SELECT * -- DISTINCT descSituacao
+# MAGIC FROM silver.olist.pedido
+# MAGIC WHERE descSituacao IN ('delivered')
+# MAGIC       AND dtEstimativaEntrega < dtEntregue
 
 # COMMAND ----------
 
 # DBTITLE 1,9. Lista de pedidos que foram entregues com 2 dias de antecedência.
 # MAGIC %sql
+# MAGIC SELECT * -- DISTINCT descSituacao
+# MAGIC FROM silver.olist.pedido
+# MAGIC WHERE descSituacao IN ('delivered')
+# MAGIC       AND DATE_DIFF(dtEstimativaEntrega, dtEntregue) = 2
 
 # COMMAND ----------
 
 # DBTITLE 1,10. Selecione os pedidos feitos em dezembro de 2017 e entregues com atraso.
 # MAGIC %sql
+# MAGIC SELECT * -- DISTINCT descSituacao
+# MAGIC FROM silver.olist.pedido
+# MAGIC WHERE MONTH(dtPedido) = 12
+# MAGIC       AND YEAR(dtPedido) = 2017
+# MAGIC       AND dtEntregue < dtEstimativaEntrega
 
 # COMMAND ----------
 
 # DBTITLE 1,11. Selecione os pedidos com avaliação maior ou igual que 4.
 # MAGIC %sql
+# MAGIC SELECT DISTINCT (idPedido)
+# MAGIC FROM silver.olist.avaliacao_pedido
+# MAGIC WHERE vlNota >= 4
 
 # COMMAND ----------
 
 # DBTITLE 1,12. Selecione pedidos pagos com cartão de crédito com duas ou mais parcelas menores que R$40,00.
 # MAGIC %sql
+# MAGIC SELECT *
+# MAGIC FROM silver.olist.pagamento_pedido
+# MAGIC WHERE descTipoPagamento = 'credit_card'
+# MAGIC       AND nrParcelas >= 2
+# MAGIC       AND vlPagamento/nrParcelas < 40
