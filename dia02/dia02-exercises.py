@@ -17,6 +17,11 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC # 1. Selecione todos os clientes paulistanos.
+
+# COMMAND ----------
+
 # DBTITLE 1,1. Selecione todos os clientes paulistanos.
 # MAGIC %sql
 # MAGIC
@@ -25,6 +30,11 @@
 # MAGIC WHERE descUF = 'SP'
 # MAGIC       AND descCidade = 'sao paulo'
 # MAGIC LIMIT 10
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC # 2. Selecione todos os clientes paulistas.
 
 # COMMAND ----------
 
@@ -38,13 +48,24 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC # 3. Selecione todos os vendedores cariocas e paulistas.
+
+# COMMAND ----------
+
 # DBTITLE 1,3. Selecione todos os vendedores cariocas e paulistas.
 # MAGIC %sql
 # MAGIC
 # MAGIC SELECT *
 # MAGIC FROM silver.olist.vendedor
-# MAGIC WHERE descUF IN ('SP', 'RJ')
+# MAGIC WHERE descUF IN ('SP')
+# MAGIC       OR descCidade IN ('RJ')
 # MAGIC LIMIT 10
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC # 4. Selecione produtos de perfumaria e bebes com altura maior que 5cm.
 
 # COMMAND ----------
 
@@ -55,6 +76,11 @@
 # MAGIC WHERE   vlComprimentoCm > 5
 # MAGIC         AND descCategoria IN ('perfumaria', 'bebes')
 # MAGIC LIMIT 10
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC # 5. Selecione os pedidos com mais de um item.
 
 # COMMAND ----------
 
@@ -69,6 +95,11 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC #  6. Selecione os pedidos que o frete é mais caro que o item.
+
+# COMMAND ----------
+
 # DBTITLE 1, 6. Selecione os pedidos que o frete é mais caro que o item.
 # MAGIC %sql
 # MAGIC SELECT DISTINCT idPedido
@@ -78,11 +109,21 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC # 7. Lista de pedidos que ainda não foram enviados.
+
+# COMMAND ----------
+
 # DBTITLE 1,7. Lista de pedidos que ainda não foram enviados.
 # MAGIC %sql
 # MAGIC SELECT *
 # MAGIC FROM silver.olist.pedido
 # MAGIC WHERE descSituacao IN ('approved', 'invoiced', 'created')
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC # 8. Lista de pedidos que foram entregues com atraso.
 
 # COMMAND ----------
 
@@ -95,12 +136,22 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC # 9. Lista de pedidos que foram entregues com 2 dias de antecedência.
+
+# COMMAND ----------
+
 # DBTITLE 1,9. Lista de pedidos que foram entregues com 2 dias de antecedência.
 # MAGIC %sql
 # MAGIC SELECT * -- DISTINCT descSituacao
 # MAGIC FROM silver.olist.pedido
 # MAGIC WHERE descSituacao IN ('delivered')
 # MAGIC       AND DATE_DIFF(dtEstimativaEntrega, dtEntregue) = 2
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC # 10. Selecione os pedidos feitos em dezembro de 2017 e entregues com atraso.
 
 # COMMAND ----------
 
@@ -114,11 +165,21 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC # 11. Selecione os pedidos com avaliação maior ou igual que 4.
+
+# COMMAND ----------
+
 # DBTITLE 1,11. Selecione os pedidos com avaliação maior ou igual que 4.
 # MAGIC %sql
 # MAGIC SELECT DISTINCT (idPedido)
 # MAGIC FROM silver.olist.avaliacao_pedido
 # MAGIC WHERE vlNota >= 4
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC # 12. Selecione pedidos pagos com cartão de crédito com duas ou mais parcelas menores que R$40,00.
 
 # COMMAND ----------
 
